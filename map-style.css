@@ -1,9 +1,0 @@
-#ugasWorldWrap{position:relative;width:100%;height:520px;background:radial-gradient(circle at 30% 20%, rgba(59,130,246,.25), transparent 50%),radial-gradient(circle at 80% 80%, rgba(37,99,235,.2), transparent 40%),#000;border:2px solid #3b82f6;border-radius:18px;overflow:hidden;box-shadow:0 0 40px rgba(59,130,246,.5);margin-bottom:16px}
-#ugasMapCanvas{width:100%;height:100%;display:block}
-#worldStats{position:absolute;top:12px;left:12px;right:12px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.world-stat{background:rgba(0,0,0,.9);border:1px solid #60a5fa;border-radius:12px;padding:10px;text-align:center;font-size:11px}
-.world-stat b{display:block;color:#fff;font-size:16px;text-shadow:0 0 10px #60a5fa}
-#futureDisplay{position:absolute;bottom:12px;left:12px;right:12px;background:rgba(5,20,50,.95);border:1px solid #60a5fa;border-radius:12px;padding:10px;display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px}
-.future-bar{height:8px;background:#000;border-radius:4px;overflow:hidden;margin-top:4px;border:1px solid #1d4ed8}
-.future-bar i{display:block;height:100%;background:linear-gradient(90deg,#1d4ed8,#60a5fa);width:0%;transition:width 1s}
-.change-box{grid-column:1/-1;text-align:center;padding:8px;background:#000;border-radius:8px;border:1px solid #3b82f6;color:#60a5fa;font-weight:700}
