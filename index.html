@@ -1,141 +1,115 @@
 <!DOCTYPE html>
-<html><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>UGAS - NEW WORLD TOWERS - LIFETIME COIN #1</title>
-<script src="https://cdn.jsdelivr.net/npm/ethers@6.8.1/dist/ethers.umd.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Rajdhani:wght@600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BLACK RACK UGAS - LIFETIME #1</title>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Rajdhani:wght@600;800&display=swap" rel="stylesheet">
 <style>
-:root{--g1:#60a5fa;--g2:#3b82f6;--g3:#1d4ed8;--ai:#22d3ee;--btc:#f59e0b;--gold:#fbbf24}
+:root{--g1:#ff7a18;--g2:#ff4500;--g3:#8b0000;--gold:#ffb347}
 *{margin:0;padding:0;box-sizing:border-box}
-body{color:#93c5fd;font-family:Rajdhani,sans-serif;padding:10px;max-width:1400px;margin:0 auto;transition:background 1.2s ease;background:#000}
-body.bg-blue{background:radial-gradient(circle at 20% 10%, rgba(59,130,246,.35), transparent 40%),#000}
-body.bg-green{background:radial-gradient(circle at 20% 10%, rgba(34,197,94,.3), transparent 40%),#000}
-body.bg-wine{background:radial-gradient(circle at 20% 10%, rgba(220,20,60,.35), transparent 40%),#0a0000}
-.nav{display:flex;align-items:center;gap:6px;padding:8px;border-bottom:1px solid var(--g3);margin-bottom:8px;flex-wrap:wrap;position:sticky;top:0;background:rgba(0,0,0,.9);z-index:20;backdrop-filter:blur(10px)}
-.brand{color:var(--g1);font:400 16px Audiowide}
-.tab{padding:6px 12px;border-radius:18px;border:1px solid var(--g1);background:rgba(0,0,0,.6);color:var(--g1);font-weight:800;cursor:pointer;font-size:11px}
+body{background:radial-gradient(circle at 20% 10%, rgba(255,69,0,.3), transparent 40%),radial-gradient(circle at 80% 90%, rgba(255,122,24,.2), transparent 40%),#000;color:#ffbb7a;font-family:Rajdhani,sans-serif;padding:10px;max-width:1400px;margin:0 auto}
+.nav{display:flex;align-items:center;gap:10px;padding:10px;border-bottom:2px solid var(--g2);margin-bottom:10px;background:rgba(0,0,0,.92);position:sticky;top:0;z-index:20;border-radius:12px}
+.brand{color:var(--gold);font:400 18px Audiowide;text-shadow:0 0 10px var(--g1)}
+.logo-nav{width:52px;height:52px;border-radius:50%;border:2px solid var(--gold);box-shadow:0 0 18px var(--g1);object-fit:cover;animation:logoGlow 2s infinite}
+@keyframes logoGlow{0%,100%{box-shadow:0 0 12px var(--g1)}50%{box-shadow:0 0 28px var(--g1)}}
+.tab{padding:7px 14px;border-radius:18px;border:1px solid var(--g1);background:rgba(0,0,0,.6);color:var(--gold);font-weight:800;cursor:pointer;font-size:11px}
 .tab.active{background:linear-gradient(90deg,var(--g3),var(--g1));color:#fff;box-shadow:0 0 12px var(--g1)}
 .page{display:none}.page.active{display:block}
-.color-bar{display:flex;gap:6px;justify-content:center;margin-bottom:8px}
-.color-btn{padding:6px 12px;border-radius:18px;border:1px solid var(--g1);font-weight:800;cursor:pointer;font-size:10px}
-
-/* ===== NEW WORLD TOWERS - FUTURE CITY ===== */
-.towers-hero{position:relative;height:620px;border:2px solid var(--gold);border-radius:24px;overflow:hidden;background:linear-gradient(180deg, #020617 0%, #0a1930 40%, #000 100%);box-shadow:0 0 60px rgba(251,191,36,.25);margin-bottom:14px}
-.sky{position:absolute;top:0;left:0;right:0;height:65%;background:linear-gradient(180deg, rgba(2,6,23,.9), rgba(10,25,48,.5) 60%, transparent)}
-.stars{position:absolute;top:0;left:0;right:0;bottom:0;background-image:radial-gradient(1px 1px at 20% 30%, #fff, transparent),radial-gradient(1px 1px at 40% 10%, var(--ai), transparent),radial-gradient(1.5px 1.5px at 80% 20%, var(--gold), transparent),radial-gradient(1px 1px at 60% 50%, #fff, transparent);animation:twinkle 4s infinite}
-@keyframes twinkle{0%,100%{opacity:1}50%{opacity:0.5}}
-.city-ground{position:absolute;bottom:0;left:0;right:0;height:45%;background:linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.9));display:flex;align-items:flex-end;justify-content:center;gap:4px;padding:0 20px}
-.tower{position:relative;background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(10,25,48,.9));border:1px solid rgba(96,165,250,.3);border-top:2px solid var(--g1);box-shadow:inset 0 0 20px rgba(96,165,250,.15), 0 0 20px rgba(0,0,0,.8);transform-origin:bottom;animation:towerGrow 3s ease-out forwards;transform:scaleY(0)}
-@keyframes towerGrow{0%{transform:scaleY(0)}100%{transform:scaleY(1)}}
-.tower::before{content:'';position:absolute;top:0;left:0;right:0;height:40%;background:linear-gradient(90deg, transparent, rgba(96,165,250,.25), transparent);animation:scan 3s linear infinite}
-@keyframes scan{0%{transform:translateY(-100%)}100%{transform:translateY(400%)}}
-.tower-windows{position:absolute;top:10%;left:15%;right:15%;bottom:20%;display:grid;grid-template-columns:repeat(2,1fr);gap:3px}
-.win{width:100%;height:6px;background:rgba(251,191,36,.6);box-shadow:0 0 6px var(--gold);animation:winBlink 2s infinite}
-.win:nth-child(even){background:rgba(34,211,238,.5);box-shadow:0 0 6px var(--ai);animation-delay:.5s}
-.win:nth-child(3n){background:rgba(96,165,250,.5);animation-delay:1s}
-@keyframes winBlink{0%,100%{opacity:.6}50%{opacity:1}}
-.lifetime-coin{position:absolute;top:18%;left:50%;transform:translateX(-50%);width:160px;height:160px;border-radius:50%;background:radial-gradient(circle at 30% 30%, #fef3c7, #fbbf24 30%, #d97706 70%, #92400e);border:4px solid #fbbf24;box-shadow:0 0 40px #fbbf24, 0 0 80px rgba(251,191,36,.5), inset 0 0 20px rgba(255,255,255,.6);display:flex;flex-direction:column;align-items:center;justify-content:center;animation:coinFloat 3s ease-in-out infinite, coinRotate 12s linear infinite;z-index:5}
+.towers-hero{position:relative;height:640px;border:2px solid var(--gold);border-radius:24px;overflow:hidden;background:#000;box-shadow:0 0 50px rgba(255,122,24,.3);margin-bottom:14px}
+.towers-bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.55;filter:brightness(.6) contrast(1.2)}
+.lifetime-coin-center{position:absolute;top:18%;left:50%;transform:translateX(-50%);width:170px;height:170px;border-radius:50%;border:4px solid var(--gold);box-shadow:0 0 40px var(--gold),0 0 80px rgba(255,122,24,.5);overflow:hidden;animation:coinFloat 3s ease-in-out infinite;z-index:5;background:#000}
+.lifetime-coin-center img{width:100%;height:100%;object-fit:cover;display:block}
 @keyframes coinFloat{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-12px)}}
-@keyframes coinRotate{0%{transform:translateX(-50%) rotateY(0)}100%{transform:translateX(-50%) rotateY(360deg)}}
-.lifetime-coin b{font-family:Audiowide;color:#000;font-size:22px;text-shadow:0 1px 0 #fff}
-.lifetime-coin span{font-size:10px;color:#000;font-weight:800;letter-spacing:2px}
-.coin-rays{position:absolute;top:18%;left:50%;width:300px;height:300px;transform:translate(-50%,-30%);background:conic-gradient(from 0deg, transparent, rgba(251,191,36,.15), transparent, rgba(96,165,250,.12), transparent);border-radius:50%;animation:rotate 20s linear infinite;pointer-events:none}
-.flying-cars{position:absolute;top:35%;left:0;right:0;height:20px;pointer-events:none}
-.car{position:absolute;width:40px;height:6px;background:linear-gradient(90deg, var(--ai), var(--g1));border-radius:3px;box-shadow:0 0 10px var(--ai);animation:fly 8s linear infinite}
-@keyframes fly{0%{transform:translateX(-100px)}100%{transform:translateX(1500px)}}
-.towers-info{position:absolute;bottom:12px;left:12px;right:12px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;z-index:6}
-.t-info{background:rgba(0,0,0,.85);border:1px solid var(--gold);border-radius:12px;padding:8px;text-align:center;backdrop-filter:blur(6px)}
-.t-info b{display:block;color:#fff;font-size:14px;text-shadow:0 0 8px var(--gold)}
-.t-info span{font-size:9px;color:var(--gold);letter-spacing:1px}
-
-.attract-section{border:2px solid var(--gold);border-radius:20px;padding:16px;background:linear-gradient(145deg, rgba(20,15,0,.9), rgba(0,0,0,.95));box-shadow:0 0 40px rgba(251,191,36,.2);margin-top:14px}
-.attract-title{font-family:Audiowide;color:var(--gold);text-align:center;font-size:18px;text-shadow:0 0 15px var(--gold);letter-spacing:2px;margin-bottom:12px}
-.attract-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-.attract-card{border:1px solid var(--gold);border-radius:14px;padding:12px;background:rgba(0,0,0,.6);position:relative;overflow:hidden;transition:.3s}
-.attract-card:hover{transform:translateY(-4px);box-shadow:0 0 25px rgba(251,191,36,.4)}
-.attract-card h4{font-family:Audiowide;color:var(--gold);font-size:12px;margin-bottom:6px}
-.attract-card p{font-size:11px;line-height:1.5;color:#fde68a}
-.lifetime-badge{position:absolute;top:6px;right:6px;background:var(--gold);color:#000;font-size:8px;padding:3px 8px;border-radius:10px;font-weight:800}
-.btn-lifetime{width:100%;padding:14px;background:linear-gradient(90deg,#d97706,#fbbf24,#fef3c7);color:#000;border:none;border-radius:14px;font-family:Audiowide;font-weight:800;letter-spacing:2px;cursor:pointer;box-shadow:0 0 30px var(--gold);margin-top:12px;font-size:14px;animation:goldPulse 2s infinite}
-@keyframes goldPulse{0%,100%{box-shadow:0 0 30px var(--gold)}50%{box-shadow:0 0 50px var(--gold)}}
+.city-ground{position:absolute;bottom:0;left:0;right:0;height:48%;display:flex;align-items:flex-end;justify-content:center;gap:4px;padding:0 16px;z-index:3}
+.tower{position:relative;background:linear-gradient(180deg, rgba(255,255,255,.1), rgba(10,0,0,.9));border:1px solid rgba(255,122,24,.3);border-top:2px solid var(--g1);transform-origin:bottom;animation:towerGrow 2.5s ease-out forwards;transform:scaleY(0)}
+@keyframes towerGrow{0%{transform:scaleY(0)}100%{transform:scaleY(1)}}
+.tower-windows{position:absolute;top:10%;left:15%;right:15%;bottom:20%;display:grid;grid-template-columns:repeat(2,1fr);gap:3px}
+.win{height:5px;background:var(--gold);box-shadow:0 0 6px var(--gold)}
+.towers-info{position:absolute;bottom:10px;left:10px;right:10px;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;z-index:6}
+.t-info{background:rgba(0,0,0,.85);border:1px solid var(--gold);border-radius:10px;padding:7px;text-align:center}
+.t-info b{display:block;color:#fff;font-size:13px}.t-info span{font-size:8px;color:var(--gold)}
+.world-map-bg{position:relative;width:100%;height:520px;border:2px solid var(--g1);border-radius:20px;overflow:hidden;margin:14px 0;background:#000}
+.world-map-bg>img.bg{width:100%;height:100%;object-fit:cover;opacity:.85;display:block}
+.world-map-overlay{position:absolute;inset:0;background:radial-gradient(circle at 50% 50%, transparent 40%, rgba(0,0,0,.6));display:flex;flex-direction:column;align-items:center;justify-content:center}
+.world-logo-center{width:120px;height:120px;border-radius:50%;border:3px solid var(--gold);box-shadow:0 0 30px var(--gold);animation:logoPulse 2s infinite;object-fit:cover}
+@keyframes logoPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.engine-wrap{position:relative;height:520px;border:2px solid var(--g1);border-radius:20px;background:linear-gradient(145deg,rgba(20,10,0,.9),rgba(0,0,0,.95));display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px}
+.engine-core{width:190px;height:190px;border-radius:50%;border:3px solid var(--gold);box-shadow:0 0 30px var(--gold);display:flex;align-items:center;justify-content:center;animation:enginePulse 2s infinite;background:#000;overflow:hidden}
+@keyframes enginePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.attract-section{border:2px solid var(--gold);border-radius:18px;padding:14px;background:linear-gradient(145deg, rgba(20,10,0,.9), rgba(0,0,0,.95));margin-top:12px}
+.attract-title{font-family:Audiowide;color:var(--gold);text-align:center;font-size:16px;text-shadow:0 0 12px var(--gold);margin-bottom:10px}
+.attract-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.attract-card{border:1px solid var(--gold);border-radius:12px;padding:10px;background:rgba(0,0,0,.6)}
+.btn-lifetime{width:100%;padding:14px;background:linear-gradient(90deg,#8b0000,#ff4500,#ffb347);color:#fff;border:none;border-radius:14px;font-family:Audiowide;font-weight:800;cursor:pointer;box-shadow:0 0 30px var(--gold);margin-top:10px}
+.footer-logo{text-align:center;padding:18px;margin-top:16px;border-top:2px solid #8b0000;background:rgba(0,0,0,.6);border-radius:14px}
+.footer-logo img{width:90px;height:90px;border-radius:50%;border:3px solid var(--gold);box-shadow:0 0 25px var(--gold);object-fit:cover}
 </style>
-</head><body class="bg-blue">
-<div class="color-bar">
-<button class="color-btn active" id="btn-blue" onclick="setBG('blue')" style="background:#000;color:#60a5fa;border-color:#3b82f6">🔵 BLUE</button>
-<button class="color-btn" id="btn-green" onclick="setBG('green')" style="background:#000;color:#22c55e;border-color:#22c55e">🟢 GREEN</button>
-<button class="color-btn" id="btn-wine" onclick="setBG('wine')" style="background:#000;color:#fda4af;border-color:#dc143c">🍷 WINE</button>
-</div>
+</head><body>
+
 <div class="nav">
-<span class="brand">🔥 UGAS LIFETIME</span>
-<button class="tab" onclick="showPage('world')" id="tab-world">🌍 WORLD</button>
-<button class="tab" onclick="showPage('p2b')" id="tab-p2b">⚙️ P2B T2C</button>
+<img src="logo.png" class="logo-nav" alt="logo">
+<span class="brand">BLACK RACK UGAS</span>
 <button class="tab active" onclick="showPage('towers')" id="tab-towers">🏙️ NEW WORLD</button>
-<button style="margin-left:auto;padding:6px 10px;border-radius:14px;background:linear-gradient(90deg,#d97706,#fbbf24);color:#000;font-weight:800;border:none;font-size:10px">LIFETIME #1</button>
+<button class="tab" onclick="showPage('world')" id="tab-world">🌍 MAP</button>
+<button class="tab" onclick="showPage('p2b')" id="tab-p2b">⚙️ P2B T2C</button>
+<span style="margin-left:auto;background:var(--gold);color:#000;padding:5px 10px;border-radius:14px;font-weight:800;font-size:10px">LIFETIME #1</span>
 </div>
 
-<!-- PAGE: NEW WORLD TOWERS -->
 <div id="page-towers" class="page active">
 <div class="towers-hero">
-<div class="sky"><div class="stars"></div></div>
-<div class="coin-rays"></div>
-<div class="lifetime-coin"><b>UGAS</b><span>LIFETIME</span><span style="font-size:8px">#1 COIN</span></div>
-<div class="flying-cars">
-<div class="car" style="top:0;animation-delay:0s"></div>
-<div class="car" style="top:12px;animation-delay:2s;background:linear-gradient(90deg,#fbbf24,#f59e0b)"></div>
-<div class="car" style="top:24px;animation-delay:4s;background:linear-gradient(90deg,#22c55e,#86efac)"></div>
-</div>
+<div class="towers-bg" style="background-image:url('world-map.png')"></div>
+<div class="lifetime-coin-center"><img src="logo.png" alt="center logo"></div>
 <div class="city-ground" id="cityGround"></div>
-<div class="towers-info">
-<div class="t-info">🏙️ TOWERS<b id="towerCount">847</b><span>DOGAYEN GIDAJE</span></div>
-<div class="t-info">👥 CITIZENS<b id="citizenCount">2.4M</b><span>A SABUWAR DUNIYA</span></div>
-<div class="t-info">💰 LIFETIME VALUE<b id="lifeValue">$847B</b><span>DARAJA TA DAYA</span></div>
-<div class="t-info">🤖 AI CONTROL<b>100%</b><span>KOMAI AI NE</span></div>
+<div class="towers-info"><div class="t-info">🏙️ TOWERS<b>847</b><span>DOGAYEN GIDAJE</span></div><div class="t-info">👥 CITIZENS<b>2.4M</b><span>SABUWAR DUNIYA</span></div><div class="t-info">💰 LIFETIME<b>$847B</b><span>DARAJA #1</span></div><div class="t-info">🤖 AI<b>100%</b><span>KOMAI AI</span></div></div>
 </div>
-</div>
-
 <div class="attract-section">
-<div class="attract-title">🌟 ME YA SA MUTANE ZASU ZO SABUWAR DUNIYA? 🌟</div>
-<div class="attract-grid">
-<div class="attract-card"><span class="lifetime-badge">LIFETIME</span><h4>🏠 GIDAJE KYAU</h4><p>Dogayen gidaje 200+ floors, AI ne ke kula da komai, babu wutar lantarki matsala, babu ruwa matsala - duk UGAS ne zai biya!</p></div>
-<div class="attract-card"><span class="lifetime-badge">FOREVER</span><h4>💎 DARAJA TA DAYA</h4><p>UGAS shi ne coin na farko da zai rayu har abada - Lifetime Coin! Ba zai taba mutuwa ba, darajar sa na karuwa kowace rana!</p></div>
-<div class="attract-card"><span class="lifetime-badge">#1</span><h4>🚀 SABUWAR DUNIYA</h4><p>Babu traffic, motoci masu tashi sama, AI doctors, AI teachers, duk abinda kake bukata AI ne zai kawo maka da UGAS!</p></div>
-<div class="attract-card"><span class="lifetime-badge">AI</span><h4>🤖 KOMAI AI NE</h4><p>Ba a bukatar mutum ya yi aiki - AI ne zai yi komai: girki, wanki, karantarwa, magani, gini - kai kawai ka zauna ka ci moriyar UGAS!</p></div>
-<div class="attract-card"><span class="lifetime-badge">RICH</span><h4>💸 ARZIKI MAI DAUWAMA</h4><p>Duk wanda ya mallaki UGAS yanzu, zai zama attajiri a sabuwar duniya - Lifetime wealth, gado ga 'ya'yanka har abada!</p></div>
-<div class="attract-card"><span class="lifetime-badge">JOIN NOW</span><h4>🌍 MIGRATION</h4><p>Mutane daga duniya 193 sun riga sun fara zuwa sabuwar duniya ta UGAS - kar ka bari a bar ka a tsohuwar duniya!</p></div>
+<div class="attract-title">🌟 SABUWAR DUNIYA - LIFETIME COIN 🌟</div>
+<div class="attract-grid"><div class="attract-card"><h4>🏠 GIDAJE KYAU</h4><p>Dogayen gidaje 200+ floors, AI ne ke kula da komai!</p></div><div class="attract-card"><h4>💎 LIFETIME #1</h4><p>UGAS har abada - darajar sa na karuwa!</p></div><div class="attract-card"><h4>🚀 SABUWAR DUNIYA</h4><p>Motoci masu tashi, AI doctors, AI teachers!</p></div><div class="attract-card"><h4>🤖 KOMAI AI NE</h4><p>AI ne zai yi komai - girki, wanki, magani!</p></div></div>
+<button class="btn-lifetime" onclick="alert('WELCOME TO NEW WORLD!')">🏙️ JOIN NEW WORLD NOW 💎</button>
 </div>
-<button class="btn-lifetime" onclick="joinNewWorld()">🏙️ JOIN NEW WORLD NOW - BECOME LIFETIME MILLIONAIRE 💎</button>
-<div style="text-align:center;margin-top:10px;font-size:11px;color:var(--gold)">🔥 12,847 mutane sun shiga sabuwar duniya a cikin 24hrs 🔥 | Lifetime Coin #1 - Har Abada!</div>
-</div>
+<div class="footer-logo"><img src="logo.png" alt="footer"><div style="font-family:Audiowide;color:var(--gold);margin-top:8px">BLACK RACK UGAS - LIFETIME #1</div><div style="font-size:9px;color:#ffbb7a">Variation 7 - GAS INSIDE - INFINITY NETWORK</div></div>
 </div>
 
-<!-- OTHER PAGES (WORLD + P2B) KEEP SIMPLE FOR THIS FILE - YOU CAN MERGE FROM PREVIOUS -->
-<div id="page-world" class="page"><div style="text-align:center;padding:40px"><h2 style="font-family:Audiowide;color:#fff">🌍 WORLD PAGE</h2><p>Danna tab na sama don ganin cikakken World Map - ko amfani da tsohon index.html dinka</p><button class="tab active" onclick="showPage('towers')">KOMA NEW WORLD</button></div></div>
-<div id="page-p2b" class="page"><div style="text-align:center;padding:40px"><h2 style="font-family:Audiowide;color:#fff">⚙️ P2B T2C ENGINE</h2><p>Bitcoin Engine - Token to Cash - yana nan a file din da ya gabata</p><button class="tab active" onclick="showPage('towers')">KOMA NEW WORLD</button></div></div>
+<div id="page-world" class="page">
+<div class="world-map-bg"><img class="bg" src="world-map.png" alt="world map"><div class="world-map-overlay"><img src="logo.png" class="world-logo-center" alt="logo on map"><div style="font-family:Audiowide;color:#fff;margin-top:12px;background:rgba(0,0,0,.7);padding:6px 14px;border-radius:18px;border:1px solid #ffb347">BLACK RACK UGAS • WORLD DOMINATION</div></div></div>
+<div class="footer-logo"><img src="logo.png" alt="footer"><div style="font-family:Audiowide;color:var(--gold)">WORLD DOMINATION MAP</div></div>
+</div>
+
+<div id="page-p2b" class="page">
+<div style="text-align:center;margin:10px 0"><h1 style="font-family:Audiowide;color:#fff">P2B <span style="color:var(--gold)">T2C</span> ENGINE</h1></div>
+<div style="display:grid;grid-template-columns:1.1fr 0.9fr;gap:12px"><div class="engine-wrap"><div style="font-family:Audiowide;color:#fff;font-size:11px;margin-bottom:12px">⚙️ BITCOIN ENGINE MACHINE ⚙️</div><div class="engine-core"><img src="logo.png" style="width:100%;height:100%;object-fit:cover" alt="engine"></div></div><div style="border:2px solid var(--gold);border-radius:16px;padding:12px;background:rgba(0,0,0,.7)"><div style="font-family:Audiowide;color:var(--gold);text-align:center">🔄 TOKEN TO CASH</div><button class="btn-lifetime" onclick="alert('ENGINE STARTING...')">⚡ SWAP NOW</button></div></div>
+<div class="footer-logo"><img src="logo.png" alt="footer"><div style="font-family:Audiowide;color:var(--gold)">BLACK RACK UGAS ENGINE</div></div>
+</div>
 
 <script>
-function showPage(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active')); document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); document.getElementById('page-'+p).classList.add('active'); document.getElementById('tab-'+p).classList.add('active');}
-function setBG(c){document.body.classList.remove('bg-blue','bg-green','bg-wine'); document.body.classList.add('bg-'+c); document.querySelectorAll('.color-btn').forEach(b=>b.classList.remove('active')); document.getElementById('btn-'+c)?.classList.add('active');}
-setBG('blue');
-// BUILD TOWERS
-const ground=document.getElementById('cityGround');
-const heights=[60,110,85,140,95,170,75,120,100,150,65,130,90,160,70,115,80,145,105,125];
-for(let i=0;i<20;i++){
-  const tower=document.createElement('div'); tower.className='tower'; const h=heights[i]||80+Math.random()*80; tower.style.width=(28+Math.random()*18)+'px'; tower.style.height=h+'px'; tower.style.animationDelay=(i*0.08)+'s';
-  const wins=document.createElement('div'); wins.className='tower-windows'; for(let j=0;j<8;j++){const w=document.createElement('div'); w.className='win'; w.style.animationDelay=(Math.random()*2)+'s'; wins.appendChild(w);} tower.appendChild(wins); ground.appendChild(tower);
+function showPage(p){
+  document.querySelectorAll('.page').forEach(function(x){x.classList.remove('active')});
+  document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active')});
+  var pg=document.getElementById('page-'+p);
+  var tb=document.getElementById('tab-'+p);
+  if(pg) pg.classList.add('active');
+  if(tb) tb.classList.add('active');
 }
-function joinNewWorld(){
-  alert('🏙️ WELCOME TO NEW WORLD!\n\n🌟 Ka zama dan sabuwar duniya!\n💎 Lifetime Coin #1 - UGAS ya zama naka har abada!\n🏠 Gida 1 an ware maka a Tower 247\n🤖 AI Assistant ya riga ya fara aiki maka!\n\nDarajar UGAS dinka: $847,000 - Lifetime!');
-  document.querySelector('.lifetime-coin').style.animation='coinFloat 0.2s infinite, coinRotate 0.5s linear infinite';
-  setTimeout(()=>{document.querySelector('.lifetime-coin').style.animation='coinFloat 3s ease-in-out infinite, coinRotate 12s linear infinite';},3000);
-}
-// Live numbers
-setInterval(()=>{
-  document.getElementById('towerCount').textContent=(840+Math.floor(Math.random()*20));
-  document.getElementById('citizenCount').textContent=(2.3+Math.random()*0.3).toFixed(1)+'M';
-  document.getElementById('lifeValue').textContent='$'+(840+Math.floor(Math.random()*20))+'B';
-},1500);
-// Sound
-let aCtx=null; function tone(f,d){if(!aCtx) aCtx=new (window.AudioContext||window.webkitAudioContext)(); const o=aCtx.createOscillator(),g=aCtx.createGain(); o.frequency.value=f; g.gain.setValueAtTime(0.25,aCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.01,aCtx.currentTime+d); o.connect(g); g.connect(aCtx.destination); o.start(); o.stop(aCtx.currentTime+d);}
-document.body.addEventListener('click',()=>{tone(800,0.15); if(aCtx&&aCtx.state==='suspended') aCtx.resume();},{once:false});
+(function buildTowers(){
+  var ground=document.getElementById('cityGround');
+  if(!ground) return;
+  var heights=[60,110,85,140,95,170,75,120,100,150,65,130,90,160,70,115,80,145,105,125];
+  for(var i=0;i<20;i++){
+    var t=document.createElement('div');
+    t.className='tower';
+    t.style.width=(26+Math.random()*16)+'px';
+    t.style.height=heights[i]+'px';
+    t.style.animationDelay=(i*0.08)+'s';
+    var w=document.createElement('div');
+    w.className='tower-windows';
+    for(var j=0;j<6;j++){
+      var d=document.createElement('div');
+      d.className='win';
+      w.appendChild(d);
+    }
+    t.appendChild(w);
+    ground.appendChild(t);
+  }
+})();
 </script>
 </body></html>
