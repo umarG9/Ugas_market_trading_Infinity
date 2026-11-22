@@ -23,3 +23,12 @@ Fixed na farko 800M, amma Owner zai iya kara supply yadda yake so. Duk abinda ka
 function mintToSelf(uint256 amount) external onlyOwner {
     _mint(msg.sender, amount); // Direct to your wallet!
 }
+# 🔥 BLACK RACK UGAS - The Token With Fire
+
+> One Token to Pay, Sell, Swap & Rule The World. 800M + Infinity ♾️ | Base Sepolia
+
+---
+
+## 🌍 UGAS WORLD DOMINATION MAP
+
+UGAS tana mamaye duniya - Komai da UGAS!
