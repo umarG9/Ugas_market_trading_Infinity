@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BLACK RACK UGAS - Trading Market</title>
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.8.1/dist/ethers.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Rajdhani:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* DUKAN CSS DINKA NA ASALI - BA NA CANZA BA */
+:root{--g1:#1fae74;--g2:#138a5a;--g3:#0c6643;--g4:#0a3f2b;--txt:#2bb585;--panel:rgba(2,14,7,.85);--panel2:rgba(1,8,4,.92);--red:#b3203f;color-scheme:dark}
+*{margin:0;padding:0;box-sizing:border-box}
+body{min-height:100vh;color:var(--txt);font-family:'IBM Plex Sans',system-ui,sans-serif;padding:18px 20px 60px;max-width:1280px;margin:0 auto;background:#000}
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+.header{display:grid;grid-template-columns:170px 1fr 220px;gap:14px;align-items:center;text-align:center;border:2px solid var(--g3);padding:20px;border-radius:18px;background:linear-gradient(90deg,#04180f 50%,#1c0610 50%);margin-bottom:18px;z-index:1;position:relative}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:18px;z-index:1;position:relative}
+.stat{background:var(--panel);border:1px solid var(--g3);padding:14px;border-radius:12px;text-align:center}
+.stat b{color:var(--g1);font-size:18px}
+.card{background:linear-gradient(115deg,rgba(10,63,43,.55) 0,rgba(10,63,43,.55) 49%,rgba(74,12,29,.55) 51%,rgba(74,12,29,.55) 100%),var(--panel);border:1px solid var(--g4);border-radius:14px;padding:16px;margin-bottom:16px;position:relative;z-index:1}
+.btn{width:100%;padding:12px;background:linear-gradient(100deg,#138a5a 50%,#a3203f 50%);color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;margin-top:8px}
+.btn-green{background:linear-gradient(100deg,#a3203f 50%,#138a5a 50%)} .btn-red{background:#000;color:#e0607a;border:1px solid #7b1530}
+input,select{width:100%;padding:10px;margin:5px 0;background:#000;color:var(--g1);border:1px solid var(--g3);border-radius:6px}
+#status{position:sticky;top:62px;z-index:5;padding:10px;margin-bottom:12px;border-radius:8px;background:#000;border:1px solid var(--g3);display:none;word-break:break-all}
+#status.ok{display:block;border-color:var(--g1);color:var(--g1)} #status.err{display:block;border-color:var(--red);color:#e0607a}
+.nav{position:sticky;top:0;z-index:6;display:flex;align-items:center;gap:22px;padding:10px 16px;margin:-18px -20px 14px;background:rgba(0,0,0,.93);border-bottom:2px solid #a3203f}
+.brand{color:var(--g1);font:400 20px 'Audiowide',sans-serif;text-decoration:none}
+.gr{color:#1fae74} .wn{color:#d0405f}
+.tk{overflow:hidden;border:1px solid var(--g4);border-radius:10px;background:#000;margin-bottom:14px;z-index:1;position:relative}
+.tk-track{display:flex;width:max-content;animation:tkm 45s linear infinite}
+@keyframes tkm{to{transform:translateX(-50%)}}
+.tk-track span{padding:9px 20px;white-space:nowrap;color:var(--g1)}
+.billboard{position:relative;margin:0 0 30px;z-index:1}
+.bb-frame{border:4px solid #2b2b2b;border-radius:10px;background:#111;padding:14px}
+.bb-screen{position:relative;height:240px;border-radius:6px;overflow:hidden;background:#000;border:1px solid var(--g3)}
+.bb-slide{position:absolute;inset:0;display:flex;align-items:center;gap:26px;padding:26px 38px;opacity:0;transition:.6s}
+.bb-slide.active{opacity:1}
+.bb-h{font-family:'Audiowide';font-size:clamp(22px,4.2vw,34px)}
+.bb-p{color:#52c59b}
+.bb-dots{position:absolute;right:16px;bottom:12px;display:flex;gap:8px}
+.bb-dot{width:12px;height:12px;border-radius:50%;border:1px solid var(--g1);background:transparent;cursor:pointer}
+.bb-dot.on{background:var(--g1)}
+.layout{display:grid;grid-template-columns:390px 1fr;gap:18px}
+@media(max-width:880px){.layout{grid-template-columns:1fr}.header{grid-template-columns:1fr}.stats{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<nav class="nav"><a class="brand" href="#">UGAS</a><div style="display:flex;gap:10px"><a href="#mkt" style="color:var(--g2);text-decoration:none">Markets</a><a href="#map" style="color:var(--g2);text-decoration:none">Map</a></div><button class="btn" id="navConn" style="width:auto;margin:0 0 0 auto;padding:8px 16px">Connect</button></nav>
+<div id="status"></div>
+
+<div class="header">
+  <div>🌐 Globe</div>
+  <div>
+    <h1><span class="gr">BLACK RACK</span> <span class="wn">UGAS</span></h1>
+    <p>Base Sepolia | Infinity Supply</p>
+    <p id="wallet">Not Connected</p>
+    <button class="btn" id="connectBtn">CONNECT METAMASK</button>
+  </div>
+  <div>⛏️ Miner 110 TH/s</div>
+</div>
+
+<div class="tk"><div class="tk-track" id="tk"></div></div>
+
+<div class="stats">
+  <div class="stat">Balance<br><b id="bal">0 UGAS</b></div>
+  <div class="stat">Total Supply LIVE<br><b id="totalSupply">Demo: 800,000,000</b><br><small id="supplyChange"></small></div>
+  <div class="stat">Total Items<br><b id="tItems">0</b></div>
+</div>
+
+<section class="billboard">
+  <div class="bb-frame">
+    <div class="bb-screen" id="bbScreen">
+      <div class="bb-slide active"><div>₿</div><div><div>BITCOIN</div><div class="bb-h"><span class="gr">BUY BITCOIN</span></div><div class="bb-p">Live market demo</div></div></div>
+      <div class="bb-slide"><div>♦</div><div><div>ETHEREUM</div><div class="bb-h"><span class="wn">ETHEREUM READY</span></div><div class="bb-p">T2T swaps</div></div></div>
+      <div class="bb-slide"><div>🔥UGAS</div><div><div>BLACK RACK UGAS</div><div class="bb-h">UGAS: THE TOKEN WITH FIRE</div><div class="bb-p">One token to pay, sell and swap</div></div></div>
+      <div class="bb-dots" id="bbDots"></div>
+    </div>
+  </div>
+</section>
+
+<div class="card" id="mkt"><h3>Markets</h3><div id="mktTbl">Sample market data - Connect wallet for live</div></div>
+
+<div class="card" id="btCard"><h3>🤝 B2B & T2T & B2U</h3><p style="font-size:13px">B2B, T2T, B2U swaps - Demo until SWAP_ADDRESS set</p></div>
+
+<div class="card" id="map"><h3>UGAS World Map</h3><canvas id="mapC" width="960" height="200" style="width:100%;background:#06170f;border-radius:10px"></canvas></div>
+
+<div class="layout">
+<div>
+<div class="card"><h3>🚰 Faucet</h3><button class="btn" id="faucetBtn">CLAIM 1,000 UGAS</button></div>
+<div class="card"><h3>♾️ Infinity Mint</h3><input id="mintAmt" type="number" placeholder="e.g. 1000000"><button class="btn btn-green" id="mintBtn">MINT + INCREASE TOTAL SUPPLY</button><p style="font-size:12px;margin-top:6px;color:#52c59b">Total Supply zai karu LIVE a account dinka!</p></div>
+<div class="card"><h3>📦 List Item</h3><input id="itemName" placeholder="e.g. Toyota Camry"><input id="itemPrice" type="number" placeholder="Price UGAS"><button class="btn btn-green" id="listBtn">LIST ITEM</button></div>
+</div>
+<div>
+<div class="card"><h3>🛒 UGAS Market</h3><button class="btn" id="refreshBtn">REFRESH</button><div id="items" style="margin-top:15px">No items</div></div>
+<div class="card"><h3>₿ BTC / USD</h3><canvas id="chart" width="900" height="200" style="background:#000;width:100%"></canvas></div>
+</div>
+</div>
+
+<script>
+// ================= CONFIG =================
+const TOKEN_ADDRESS = "0x0000000000000000000000000000000000000000"; // SAKA ANAN
+const TOKEN_ABI = ["function balanceOf(address) view returns(uint256)","function totalSupply() view returns(uint256)","function decimals() view returns(uint8)","function faucet() external","function mintToSelf(uint256) external"];
+let provider, signer, tokenContract, userAddr, lastTotal=0;
+
+function show(m, err=false){ const s=document.getElementById("status"); s.textContent=m; s.className=err?"err":"ok"; s.style.display="block"; setTimeout(()=>s.style.display="none",5000); }
+
+async function connect(){
+  try{
+    if(!window.ethereum) return show("Install MetaMask",true);
+    provider = new ethers.BrowserProvider(window.ethereum);
+    await provider.send("eth_requestAccounts",[]);
+    signer = await provider.getSigner();
+    userAddr = await signer.getAddress();
+    document.getElementById("wallet").textContent=userAddr.slice(0,6)+"...";
+    if(TOKEN_ADDRESS.startsWith("0x000")){
+      show("DEMO MODE - Deploy UGAS.sol, then paste address in line 88");
+      document.getElementById("bal").textContent="Demo";
+      document.getElementById("totalSupply").textContent="800,000,000 UGAS (Demo)";
+      document.getElementById("tk").innerHTML="<span>DEMO MODE | Deploy to see LIVE Supply</span> ".repeat(20);
+      return;
+    }
+    tokenContract = new ethers.Contract(TOKEN_ADDRESS, TOKEN_ABI, signer);
+    await loadAll();
+    show("Connected");
+  }catch(e){ show(e.message,true); }
+}
+
+async function loadAll(){
+  try{
+    const dec=await tokenContract.decimals().catch(()=>18);
+    const [bal,total]=await Promise.all([tokenContract.balanceOf(userAddr), tokenContract.totalSupply()]);
+    const bf=ethers.formatUnits(bal,dec), tf=ethers.formatUnits(total,dec);
+    document.getElementById("bal").textContent=Number(bf).toLocaleString()+" UGAS";
+    document.getElementById("totalSupply").textContent=Number(tf).toLocaleString()+" UGAS LIVE";
+    const tn=parseFloat(tf);
+    if(lastTotal && tn>lastTotal) document.getElementById("supplyChange").textContent="▲ +"+(tn-lastTotal).toLocaleString()+" KARUWA";
+    else if(tn>800000000) document.getElementById("supplyChange").textContent="▲ +"+(tn-800000000).toLocaleString()+" from start";
+    lastTotal=tn;
+    document.getElementById("tk").innerHTML=("<span>UGAS: "+Number(bf).toLocaleString()+" | TOTAL LIVE: "+Number(tf).toLocaleString()+" | </span>").repeat(20);
+  }catch(e){ show(e.message,true); }
+}
+
+async function faucet(){ try{ if(!tokenContract) return show("Set TOKEN_ADDRESS first",true); const tx=await tokenContract.faucet(); show("Claiming..."); await tx.wait(); await loadAll(); show("1,000 claimed!"); }catch(e){ show(e.message,true); } }
+async function mint(){ try{ const amt=document.getElementById("mintAmt").value; if(!amt) return show("Enter amount",true); if(!tokenContract) return show("Set TOKEN_ADDRESS first",true); const tx=await tokenContract.mintToSelf(amt); show("Minting "+amt+"..."); await tx.wait(); await loadAll(); show("Minted! Total Supply ya karu!"); }catch(e){ show(e.reason||e.message,true); } }
+
+// Billboard
+let slide=0; setInterval(()=>{ const s=document.querySelectorAll(".bb-slide"); s.forEach((el,i)=>el.classList.toggle("active", i===slide)); slide=(slide+1)%s.length; },3500);
+
+document.getElementById("connectBtn").onclick=connect;
+document.getElementById("navConn").onclick=connect;
+document.getElementById("refreshBtn").onclick=loadAll;
+document.getElementById("faucetBtn").onclick=faucet;
+document.getElementById("mintBtn").onclick=mint;
+window.addEventListener("load",()=>{ document.getElementById("tk").innerHTML="<span>BLACK RACK UGAS - Connect wallet for LIVE Total Supply</span> ".repeat(15); });
+</script>
+</body>
+</html>
